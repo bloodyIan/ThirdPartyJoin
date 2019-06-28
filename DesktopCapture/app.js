@@ -14,7 +14,7 @@
 
 const {desktopCapturer} = require('electron');
 
-let desktopSharing = false;
+let desktopSharing = true;
 let localStream;
 
 var videoElement = document.getElementById("myvideo");
@@ -77,7 +77,7 @@ function toggle() {
       localStream.getTracks()[0].stop();
     localStream = null;
 
-    document.querySelector('button').innerHTML = "Enable Capture";
+    //document.querySelector('button').innerHTML = "Enable Capture";
 
     $('select').empty();
     showSources();
@@ -85,24 +85,26 @@ function toggle() {
   }
 }
 
-function onAccessApproved(desktop_id) {
+function onAccessApproved(id) {
+  let desktop_id = "screen:0:0";
   if (!desktop_id) {
     console.log('Desktop Capture access rejected.');
     return;
   }
   desktopSharing = true;
-  document.querySelector('button').innerHTML = "Disable Capture";
+  //document.querySelector('button').innerHTML = "Disable Capture";
   console.log("Desktop sharing started.. desktop_id:" + desktop_id);
+  console.log(process.versions.electron);
   navigator.webkitGetUserMedia({
     audio: false,
     video: {
       mandatory: {
         chromeMediaSource: 'desktop',
         chromeMediaSourceId: desktop_id,
-        minWidth: 1280,
-        maxWidth: 1280,
-        minHeight: 720,
-        maxHeight: 720
+        minWidth: 1920,
+        maxWidth: 1920,
+        minHeight: 1080,
+        maxHeight: 1080
       }
     }
   }, gotStream, getUserMediaError);
@@ -123,8 +125,10 @@ function onAccessApproved(desktop_id) {
 }
 
 $(document).ready(function() {
+
   showSources();
   refresh();
+  onAccessApproved("screen:0:0");
 });
 
 document.querySelector('button').addEventListener('click', function(e) {
