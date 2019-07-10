@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <style>
+      html {
+        position: reletive;
+      }
+      body{
+          margin: 0;
+          background-color: #201f1f;
+          overflow:hidden;
+      }
+      .loader {
+        background-image: url("https://thumbs.gfycat.com/NearAggravatingJabiru-size_restricted.gif");
+        display: block;
+        background-size: cover;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 102vh;
+        z-index: 9999;
+        background-position: center;
+        position: absolute;
+      }
+      .loader.hide {
+        display: none;
+      }
+      .join-meeting.hide{
+          display: none;
+      }
+      webview {
+        height:100%;
+      }
+      .webview-container {
+        overflow:hidden;
+      }
+      webview.hide{
+          display: none;
+      }
+     
+       .console-controls.hide {
+        display: none;
+      }
+  .console-controls {
+        position: relative;
+        background: #201f1f;
+        width: 100%;
+        
+        height: 144px;
+        bottom: 0px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .exit-meeting-btn {
+        
+          color:rgb(215, 70, 84);
+          font-family: SegoeUI-Semibold;
+          font-size: 18px;
+          width: 200px;
+          cursor: pointer;
+          padding: 12px;
+          font-weight: 600;
+          text-align: center;
+          letter-spacing: 0px;
+          line-height: 24px;
+          background: rgba(37, 36, 36, 0);
+          border-radius: 2px;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          box-shadow: 0px 2px 4px -0.75px rgba(0, 0, 0, 0.1);
+      }
+      .pretty input:not([type="checkbox"]):not([type="radio"]) {
+        display: none;
+      }
+      .pretty {
+        visibility:hidden;
+        position: relative;
+        display: inline-block;
+        margin-right: 1em;
+        white-space: nowrap;
+        line-height: 1;
+        padding-left:15px;
+      }
+      .pretty input {
+        position: absolute;
+        left: 0;
+        top: 0;
+        min-width: 1em;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        opacity: 0;
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+      }
+      .pretty .state label {
+        position: initial;
+        display: inline-block;
+        font-weight: 400;
+        margin: 0;
+        color: #fff;
+        text-indent: 1.5em;
+        min-width: calc(1em + 2px);
+      }
+      .pretty.p-switch .state label {
+        text-indent: 2.5em;
+      }
+      .pretty.p-switch .state {
+        position: relative;
+      }
+      .pretty.p-switch .state:before {
+        content: "";
+        border-radius: 60px;
+        background: #6264a7;
+        width: 2em;
+        box-sizing: unset;
+        height: calc(1em + 2px);
+        position: absolute;
+        top: 0;
+        top: calc((0% - (100% - 1em)) - 2%);
+        z-index: 0;
+        transition: all 0.5s ease;
+      }
+      .pretty .state label:after,
+      .pretty .state label:before {
+        content: "";
+        width: calc(1em + 2px);
+        height: calc(1em + 2px);
+        display: block;
+        box-sizing: border-box;
+        border-radius: 0;
+        border: 1px solid transparent;
+        z-index: 0;
+        position: absolute;
+        left: 0;
+        top: calc((0% - (100% - 1em)) - 1%);
+        background-color: transparent;
+      }
+      .pretty .state label:before {
+        border-color: #bdc3c7;
+      }
+      .pretty .state.p-is-hover,
+      .pretty .state.p-is-indeterminate {
+        display: none;
+      }
+      .pretty.p-switch .state label:after,
+      .pretty.p-switch .state label:before {
+        transition: all 0.5s ease;
+        border-radius: 100%;
+        left: 0;
+        border-color: transparent;
+        -webkit-transform: scale(0.8);
+        -ms-transform: scale(0.8);
+        transform: scale(0.8);
+      }
+      .pretty.p-switch .state label:after {
+        background-color: #bdc3c7 !important;
+      }
+      .pretty.p-switch .state label:after,
+      .pretty.p-switch .state label:before {
+        transition: all 0.5s ease;
+        border-radius: 100%;
+        left: 0;
+        border-color: transparent;
+        -webkit-transform: scale(0.8);
+        -ms-transform: scale(0.8);
+        transform: scale(0.8);
+      }
+      .pretty.p-switch input:checked ~ .state label:before {
+        opacity: 0;
+      }
+      .pretty.p-switch input:checked ~ .state label:after {
+        background-color: #fff !important;
+        left: 1em;
+      }
+      .pretty.p-switch .state label:after {
+        background-color: #bdc3c7 !important;
+      }
+      .button-control {
+          list-style: none;
+          color:rgba(134, 137, 146, 0.84);
+            margin: 0;
+            padding: 0;
+            padding-right: 15px;
+            text-align: center;
+      }
+      .button-control li {
+         display: inline;
+         margin-right:35px; 
+      }
+    </style>
+
+    <!--<title>Hello World!</title>-->
+  </head>
+   <body class="container" onload="myFunction()">
+    <div class="loader hide"></div>
+    <button class="join-meeting join-webex">Join Webex</button>
+    <button class="join-meeting join-zoom">Join Zoom</button>
+    <div class="">
+      <div class="webview-container"></div>
+      <div class="console-controls hide">
+        <div class="pretty p-switch">
+          <input type="checkbox" />
+          <div class="state">
+            <label>Show meeting on console</label>
+          </div>
+        </div>
+        <button class="exit-meeting-btn">Exit meeting</button>
+        <ul class="button-control">
+          <li><i class="fa fa-minus" aria-hidden="true"></i></li>
+          <li><i class="fa fa-volume-up" aria-hidden="true"></i> </li>
+          <li><i class="fa fa-plus" aria-hidden="true"></i></li>
+        </ul>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    
+    var remote = require('electron').remote,
+    arguments = remote.getGlobal('sharedObject').prop1;
+    console.log(arguments[2]);
+
+    function myFunction(){
+      var remote = require('electron').remote,
+      arguments = remote.getGlobal('sharedObject').prop1;
+      var zoomURL = arguments[1];
+
+        let getwebView = getWebView();
+       // document.querySelector('.loader').classList.remove('hide');
+        document.querySelector(".join-webex").classList.add("hide");
+        document.querySelector(".join-zoom").classList.add("hide");
+        // getwebViewHTML = getWebView(require('electron').remote.process.argv.slice(1)[0]);
+        getwebViewHTML = getWebView(zoomURL);
+        document.querySelector('.webview-container').innerHTML = getwebViewHTML;
+        bindEvents();
+    }
+    // You can also require other files to run in this process
+    //require('./renderer.js');
+    //document.querySelector('body').classList.add('loader');
+    
+    var count = 0;
+    const webex = document.querySelector(".join-webex");
+    const zoom = document.querySelector(".join-zoom");
+    let getwebViewHTML;
+    const exitMeeting = document.querySelector(".exit-meeting-btn");
+    exitMeeting.addEventListener("click", function() {
+      const { shell } = require('electron');
+      shell.openItem('skype-mrx://hidethirdparty');
+ 
+      const { ipcRenderer } = require('electron');
+      ipcRenderer.send('close');
+
+      document.querySelector(".loader").classList.remove("hide");
+      reRender();
+    });
+    
+    webex.addEventListener('click',function(e){
+        document.querySelector('.loader').classList.remove('hide');
+        document.querySelector(".join-webex").classList.add("hide");
+        document.querySelector(".join-zoom").classList.add("hide");
+        getwebViewHTML = getWebView(arguments[1]);
+        document.querySelector('.webview-container').innerHTML = getwebViewHTML;
+        bindEvents();
+    });
+    zoom.addEventListener('click',function(e){
+      var remote = require('electron').remote,
+      arguments = remote.getGlobal('sharedObject').prop1;
+      var zoomURL = arguments[1];
+
+        let getwebView = getWebView();
+       // document.querySelector('.loader').classList.remove('hide');
+        document.querySelector(".join-webex").classList.add("hide");
+        document.querySelector(".join-zoom").classList.add("hide");
+        // getwebViewHTML = getWebView(require('electron').remote.process.argv.slice(1)[0]);
+        getwebViewHTML = getWebView(zoomURL);
+        document.querySelector('.webview-container').innerHTML = getwebViewHTML;
+        bindEvents();
+    });
+    const loadstop = () => {
+      let webview = document.querySelector('webview');    
+     //webview.openDevTools();  
+      webview.insertCSS('#wrapper{display:none;} html{background-image:none !important;}')  
+      webview.executeJavaScript(
+        `document.querySelector(".meeting-join .user-email .el-input__inner").value = "maheshwar@gmail.com";`
+      );
+      webview.executeJavaScript(
+        `document.querySelector(".meeting-join .el-input__inner").value = "Mahesh";`
+      );
+      webview.executeJavaScript(
+        `document.querySelector(".el-button.el-button--success.el-button--large").removeAttribute("disabled")`
+      );
+      webview.executeJavaScript(
+        `document.querySelector(".meeting-join  .el-input__inner").dispatchEvent(new Event("input"))`
+      );
+      webview.executeJavaScript(
+        `document.querySelector(".meeting-join .user-email .el-input__inner").dispatchEvent(new Event("input"))`
+      );
+      webview.executeJavaScript(
+        `document.querySelector(".el-button.el-button--success.el-button--large").click();`
+      );
+      setTimeout(() => {
+         webview.executeJavaScript(
+        `document.querySelector(".img-start-video").removeAttribute('disabled');`
+      );
+       webview.executeJavaScript(
+        `document.querySelector(".img-start-video").click();`
+      );
+      }, 8000)
+     
+    };
+   
+ const loadFinish = () => {
+      let webview = document.querySelector("webview");
+      let page = webview.getAttribute("src");
+      let consoleWrapper = document.querySelector(".console-controls");
+      if (page.indexOf("zoom") > 0) {
+        document.querySelector(".loader").classList.add("hide");
+        document.querySelector(".join-zoom").classList.add("hide");
+        document.querySelector(".join-webex").classList.add("hide");
+        consoleWrapper.classList.remove("hide");
+        setTimeout(() => {
+          webview.send("bind-end-meeting", "zoom");
+        }, 5000);
+      } else {
+        count = count + 1;
+        if (count > 1) {
+          document.querySelector(".loader").classList.add("hide");
+          consoleWrapper.classList.remove("hide");
+          setTimeout(() => {
+            webview.send("bind-end-meeting", "webex");
+          }, 5000);
+        }
+      }
+    }
+   const getWebView = (url) => {
+       return ` <webview src=${url} autosize preload = "renderer.js" id="foo"  style="min-width: 786px;min-height:80vh"></webview>`;
+   }
+    const reRender = () => {
+      setTimeout(function() {
+        document.querySelector("webview").remove();
+        document.querySelector(".join-webex").classList.remove("hide");
+        document.querySelector(".join-zoom").classList.remove("hide");
+        document.querySelector(".loader").classList.add('hide');
+        document.querySelector(".console-controls").classList.add('hide');
+      }, 500);
+    };
+    // In embedder page
+   const bindEvents = () => { 
+    let webview = document.querySelector('webview');   
+    webview.addEventListener('ipc-message', (event) => {
+        console.log(event.channel);
+        document.querySelector(".loader").classList.remove("hide");
+        switch(event.channel) {
+            case 'close meeting': reRender(); break;
+            default: console.log(event.channel);
+        }
+        // Prints "pong"
+    })
+    webview.addEventListener("did-finish-load", loadFinish);
+    webview.addEventListener("did-stop-loading", loadstop);
+}
+    
+    
+    
+  </script>
+</html>

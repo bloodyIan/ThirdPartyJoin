@@ -1,0 +1,35 @@
+<html>
+<head>
+  <script>
+    var link = document.createElement('link')
+    link.setAttribute('href', require('path').join(__dirname, 'image-picker.css'))
+    document.head.appendChild(link)
+  </script>
+<style>
+  body {
+    background: black;
+    display: -webkit-flex;
+    overflow: hidden;
+    margin: 0;
+  }
+  video {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 1);
+  }
+
+  video {
+    background: black url(desktop.jpg) center no-repeat;
+  }
+</style>
+</head>
+<body>
+  
+  <video autoplay="autoplay" controls="false" id="myvideo"></video>
+  <script>window.$ = window.jQuery = require('jquery');</script>
+  <script src="app.js"></script>
+  <script src="jquery.js"></script>
+  <script src="image-picker.min.js"></script>
+
+</body>
+</html>

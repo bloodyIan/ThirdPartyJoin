@@ -228,7 +228,7 @@
     function myFunction(){
       var remote = require('electron').remote,
       arguments = remote.getGlobal('sharedObject').prop1;
-      var zoomURL = arguments[1];
+      var zoomURL = arguments[2];
 
         let getwebView = getWebView();
        // document.querySelector('.loader').classList.remove('hide');
@@ -263,7 +263,7 @@
         document.querySelector('.loader').classList.remove('hide');
         document.querySelector(".join-webex").classList.add("hide");
         document.querySelector(".join-zoom").classList.add("hide");
-        getwebViewHTML = getWebView('https://m3-821b.my.webex.com/m3-821b.my/j.php?MTID=mc65ced7f7357fe81fc4d22c9ca489e35');
+        getwebViewHTML = getWebView(arguments[2]);
         document.querySelector('.webview-container').innerHTML = getwebViewHTML;
         bindEvents();
     });
