@@ -10,7 +10,7 @@ function createWindow () {
       forWindow = new BrowserWindow({ x: displays[i].bounds.x, y: displays[i].bounds.y,width: displays[i].bounds.width,  height: displays[i].bounds.height, frame: false, webPreferences: { nodeIntegration: true, webSecurity: true } });
       forWindow.maximize();
       forWindow.loadURL('file://' + __dirname + '/for.html');
-      //forWindow.openDevTools();
+      forWindow.openDevTools();
     }
     if (displays[i].bounds.x == 0 && displays[i].bounds.y == 0) {
       consoleWindow = new BrowserWindow({ x: displays[i].bounds.x, y: displays[i].bounds.y,width: displays[i].bounds.width,  height: displays[i].bounds.height, frame: true, webPreferences: { nodeIntegration: true } })
