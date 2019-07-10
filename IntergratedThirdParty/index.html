@@ -231,7 +231,11 @@
       var zoomURL = arguments[2];
 
         let getwebView = getWebView();
-       // document.querySelector('.loader').classList.remove('hide');
+        if(!zoomURL.includes("zoom")){
+          //console.log("this is a webex meeting");
+          document.querySelector('.loader').classList.remove('hide');
+        }
+
         document.querySelector(".join-webex").classList.add("hide");
         document.querySelector(".join-zoom").classList.add("hide");
         // getwebViewHTML = getWebView(require('electron').remote.process.argv.slice(1)[0]);
@@ -282,6 +286,8 @@
         bindEvents();
     });
     const loadstop = () => {
+      console.log("load stop sign here");
+      //document.querySelector('.loader').classList.remove('hide');
       let webview = document.querySelector('webview');    
      //webview.openDevTools();  
       webview.insertCSS('#wrapper{display:none;} html{background-image:none !important;}')  
@@ -353,7 +359,7 @@
    const bindEvents = () => { 
     let webview = document.querySelector('webview');   
     webview.addEventListener('ipc-message', (event) => {
-        console.log(event.channel);
+        console.log("hello" + event.channel);
         document.querySelector(".loader").classList.remove("hide");
         switch(event.channel) {
             case 'close meeting': reRender(); break;
